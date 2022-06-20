@@ -1,0 +1,46 @@
+!!!
+%html.mdl-js{:lang => "en"}
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %meta{:content => "width=device-width, initial-scale=1, shrink-to-fit=no", :name => "viewport"}/
+    %link{:href => "assets/favicon.ico", :rel => "icon"}/
+    %link{:href => "assets/css/bootstrap.min.css", :rel => "stylesheet"}/
+    %link{:href => "assets/css/styles.css", :rel => "stylesheet"}/
+    %script{:src => "assets/js/jquery.min.js"}
+    %script{:src => "assets/js/bootstrap.min.js"}
+    %title= I18n.t(:title)
+  %body
+    %section#introduction
+      .container
+        .row.fill-viewport.align-items-center.justify-content-center
+          .col-12.col-md-6
+            .row
+              .col-md-auto
+                %h1.text-white.title.inline-block= I18n.t(:codebreaker, year: Time.new.year)
+            .row
+              .col.button
+                %button.btn.btn-primary{:disabled => "disabled", :type => "button"}
+                  = I18n.t(:level)
+                  %span.badge.badge-light
+                    #{@game.level.level.capitalize}
+                %button.btn.btn-primary{:disabled => "disabled", :type => "button"}
+                  = I18n.t(:attempts_left)
+                  %span.badge.badge-light
+                    #{@game.user_attempts}/#{@game.level.attempts}
+                %button.btn.btn-primary{:disabled => "disabled", :type => "button"}
+                  = I18n.t(:hints_left)
+                  %span.badge.badge-light
+                    #{@game.user_hints}/#{@game.level.hints}
+            %hr.mb-4/
+            .row
+              .text-center
+                .text-center
+                  %h3.text-white
+                    = I18n.t(:lose_message, name: @game.name.name)
+                  %h4.text-white
+                    = I18n.t(:secret_code_message)
+                    %strong #{@game.secret_code.join} 
+                %img.img-fluid{:alt => "You lose the game!", :src => "assets/images/lost.gif"}/
+            %hr.mb-4/
+            %a.btn.btn-primary.btn-lg{:href => Lib::Entities::Router::COMMANDS[:menu], :role => "button"}= I18n.t(:play_again)
+            %a.btn.btn-success.btn-lg.float-right{:href => Lib::Entities::Router::COMMANDS[:statistics], :role => "button"}= I18n.t(:statistics)

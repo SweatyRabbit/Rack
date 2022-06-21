@@ -16,28 +16,28 @@ module Lib
 
       def response
         case @request.path
-        when Lib::Entities::Router::COMMANDS[:menu] then menu_page
-        when Lib::Entities::Router::COMMANDS[:statistics] then statistics_page
-        when Lib::Entities::Router::COMMANDS[:rules] then rules_page
-        when Lib::Entities::Router::COMMANDS[:game] then game_page
-        else respond(:menu)
+        when Router::COMMANDS[:menu] then menu_page
+        when Router::COMMANDS[:statistics] then statistics_page
+        when Router::COMMANDS[:rules] then rules_page
+        when Router::COMMANDS[:game] then game_page
+        else respond(menu)
         end
+      rescue CodebreakerGem::Error::NameLength, CodebreakerGem::Error::DifficultyHandler => e
+        assign_errors(e)
       end
 
       private
 
       def menu_page
-        @request.session.clear
-
-        respond(:menu)
+        respond(PAGES[:menu])
       end
 
       def statistics_page
-        respond(:statistics)
+        respond(PAGES[:statistics])
       end
 
       def rules_page
-        respond(:rules)
+        respond(PAGES[:rules])
       end
 
       def game_page
@@ -45,14 +45,12 @@ module Lib
         @difficulty = @request.params['level']
         @game = CodebreakerGem::Entities::Game.new(@name, @difficulty)
         @request.session[:game] = @game
-        respond(:game)
-      rescue CodebreakerGem::Error::NameLength, CodebreakerGem::Error::DifficultyHandler => e
-        assign_errors(e)
+        respond(PAGES[:game])
       end
 
       def assign_errors(error)
         @errors << error.message
-        respond(:menu)
+        respond(PAGES[:menu])
       end
     end
   end

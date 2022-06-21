@@ -20,7 +20,7 @@
             %p.lead.text-white-70= I18n.t(:hello_message, name: @game.name.name)
             %p.lead.text-white-70= I18n.t(:guess_code, code: CodebreakerGem::Entities::Guess::MAX_INPUT, min: CodebreakerGem::Entities::Guess::MIN_RANGE, max: CodebreakerGem::Entities::Guess::MAX_RANGE)
             %hr.mb-4/
-            = render_errors('errors')
+            = render_errors(Lib::Modules::WebHelper::PAGES[:errors])
             .row
               .col.button
                 %button.btn.btn-primary{:disabled => "disabled", :type => "button"}
@@ -33,7 +33,7 @@
                   %span.badge.badge-light #{@game.user_attempts}/#{@game.level.attempts}
               .col.button
                 %button.btn.btn-primary.float-right{:type => "button"}
-                  = I18n.t(:game_page_level)
+                  = I18n.t(:game_page_hints)
                   %span.badge.badge-light #{@game.user_hints}/#{@game.level.hints}
             %hr.mb-4/
             %form{:action => Lib::Entities::Router::COMMANDS[:guess], :method => "post"}
@@ -49,7 +49,7 @@
                       - when CodebreakerGem::Entities::UserCode::SOFT_NUMBER
                         %button.btn.btn-primary.marks{:disabled => "disabled", :type => "button"}= CodebreakerGem::Entities::UserCode::SOFT_NUMBER
                       - else 
-                        %button.btn.btn-danger.marks{:disabled => "disabled", :type => "button"}= Lib::Entities::Game::WRONG_NUMBER
+                        %button.btn.btn-danger.marks{:disabled => "disabled", :type => "button"}= CodebreakerGem::Entities::UserCode::WRONG_NUMBER
               %hr.mb-4/
               %button.btn.btn-primary.btn-lg{:type => "submit"}
                 = I18n.t(:submit)

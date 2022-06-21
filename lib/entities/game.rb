@@ -5,8 +5,6 @@ module Lib
     class Game
       include Lib::Modules::WebHelper
 
-      WRONG_NUMBER = 'X'
-
       def self.call(env)
         new(env).responce
       end
@@ -22,11 +20,11 @@ module Lib
 
       def responce
         case @request.path
-        when Lib::Entities::Router::COMMANDS[:guess] then guess_number
-        when Lib::Entities::Router::COMMANDS[:hint] then hint
-        when Lib::Entities::Router::COMMANDS[:lose] then lose
-        when Lib::Entities::Router::COMMANDS[:win] then win
-        else respond(:game)
+        when Router::COMMANDS[:guess] then guess_number
+        when Router::COMMANDS[:hint] then hint
+        when Router::COMMANDS[:lose] then lose
+        when Router::COMMANDS[:win] then win
+        else respond(PAGES[:game])
         end
       rescue CodebreakerGem::Error::OnlyNumbers, CodebreakerGem::Error::InputRange,
              CodebreakerGem::Error::MaxStringLength => e
@@ -36,8 +34,6 @@ module Lib
       private
 
       def guess_number
-        return respond('game') unless @request.params['number']
-
         @guess_number = @request.params['number']
         @request.session[:guess_number] = @guess_number
         @guess_result = @game.use_attempt(@guess_number).dup
@@ -54,20 +50,19 @@ module Lib
 
         @game.save_current_statistic
         @request.session.clear
-        respond(:win)
+        respond(PAGES[:win])
       end
 
       def lose
         return respond(:game) if game_exist? && !@game.lose?
 
         @request.session.clear
-        respond(:lose)
+        respond(PAGES[:lose])
       end
 
       def no_match_result
-        (CodebreakerGem::Entities::Guess::MAX_INPUT - @guess_result.size).times { @guess_result << WRONG_NUMBER }
         @request.session[:result] = @guess_result
-        respond('game')
+        respond(PAGES[:game])
       end
 
       def hint
@@ -76,7 +71,7 @@ module Lib
           @hints << @game.use_hint
           @request.session[:hint_code] = @hints
         end
-        respond(:game)
+        respond(PAGES[:game])
       end
 
       def game_exist?
@@ -85,7 +80,7 @@ module Lib
 
       def assign_errors(error)
         @errors << error.message
-        respond(:game)
+        respond(PAGES[:game])
       end
     end
   end

@@ -20,7 +20,7 @@
             .row
             %p.lead.text-white-70= I18n.t(:guess_code, code: CodebreakerGem::Entities::Guess::MAX_INPUT, min: CodebreakerGem::Entities::Guess::MIN_RANGE, max: CodebreakerGem::Entities::Guess::MAX_RANGE)
             %hr.mb-4/
-            = render_errors('errors')
+            = render_errors(Lib::Modules::WebHelper::PAGES[:errors])
             %form{:action => Lib::Entities::Router::COMMANDS[:game], :method => "post"}
               .form-group
                 %label.lead.label{:for => "player_name"}= I18n.t(:menu_player_name)

@@ -11,7 +11,8 @@ module Lib
         lose: 'lose',
         win: 'win',
         statistics: 'statistics',
-        rules: 'rules'
+        rules: 'rules',
+        errors: 'errors'
       }.freeze
 
       def page_not_found
@@ -19,7 +20,7 @@ module Lib
       end
 
       def render_errors(template)
-        render(template)
+        render(PAGES[template.to_sym])
       end
 
       def respond(page)

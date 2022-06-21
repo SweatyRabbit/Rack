@@ -1,2 +1,11 @@
 coverage
 db
+/.bundle/
+/.yardoc
+/_yardoc/
+/doc/
+/pkg/
+/spec/reports/
+/tmp/
+
+.rspec_status

@@ -20,7 +20,7 @@ module Lib
         when Router::COMMANDS[:statistics] then statistics_page
         when Router::COMMANDS[:rules] then rules_page
         when Router::COMMANDS[:game] then game_page
-        else respond(menu)
+        else respond(PAGES[:menu])
         end
       rescue CodebreakerGem::Error::NameLength, CodebreakerGem::Error::DifficultyHandler => e
         assign_errors(e)
@@ -41,6 +41,8 @@ module Lib
       end
 
       def game_page
+        return respond(PAGES[:menu]) unless @request.params['player_name']
+
         @name = @request.params['player_name']
         @difficulty = @request.params['level']
         @game = CodebreakerGem::Entities::Game.new(@name, @difficulty)

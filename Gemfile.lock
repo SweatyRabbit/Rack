@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/SweatyRabbit/codebreaker.git
-  revision: a9c0c50e67949f6d9825778894b44843d37a8e34
+  revision: ba38c29f47232ed6b6b7871337df950bc80f0956
   branch: master
   specs:
     codebreaker_gem (0.1.0)
@@ -24,7 +24,7 @@ GEM
     haml (5.2.2)
       temple (>= 0.8.0)
       tilt
-    i18n (1.10.0)
+    i18n (1.8.11)
       concurrent-ruby (~> 1.0)
     method_source (1.0.0)
     parallel (1.22.1)
@@ -91,9 +91,9 @@ DEPENDENCIES
   codebreaker_gem!
   faker (~> 2.21)
   fasterer (~> 0.10.0)
-  haml
-  i18n
-  rack
+  haml (~> 5.2.2)
+  i18n (~> 1.8.11)
+  rack (~> 2.2.3)
   rack-test (~> 1.1)
   rack_session_access
   rspec (~> 3.11)

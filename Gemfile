@@ -4,9 +4,9 @@ source 'https://rubygems.org'
 gem 'bundler'
 gem 'codebreaker_gem', git: 'https://github.com/SweatyRabbit/codebreaker.git', branch: 'master'
 
-gem 'haml'
-gem 'i18n'
-gem 'rack'
+gem 'haml', '~>  5.2.2'
+gem 'i18n', '~> 1.8.11'
+gem 'rack', '~> 2.2.3'
 gem 'rack_session_access'
 gem 'rubocop', require: false
 

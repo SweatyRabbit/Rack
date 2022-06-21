@@ -34,9 +34,11 @@ module Lib
       private
 
       def guess_number
+        return respond(PAGES[:game]) unless @request.params['number']
+
         @guess_number = @request.params['number']
         @request.session[:guess_number] = @guess_number
-        @guess_result = @game.use_attempt(@guess_number).dup
+        @guess_result = @game.use_attempt(@guess_number)
         @request.session[:guess_result] = @guess_result
         return win if @game.win?
 

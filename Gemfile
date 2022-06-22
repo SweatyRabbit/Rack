@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 source 'https://rubygems.org'
+
+ruby '2.7.3'
 gem 'bundler'
 gem 'codebreaker_gem', git: 'https://github.com/SweatyRabbit/codebreaker.git', branch: 'master'
 

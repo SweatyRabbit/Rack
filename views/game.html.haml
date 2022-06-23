@@ -1,0 +1,61 @@
+!!!
+%html.mdl-js{:lang => "en"}
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %meta{:content => "width=device-width, initial-scale=1, shrink-to-fit=no", :name => "viewport"}/
+    %link{:href => "assets/favicon.ico", :rel => "icon"}/
+    %link{:href => "assets/css/bootstrap.min.css", :rel => "stylesheet"}/
+    %link{:href => "assets/css/styles.css", :rel => "stylesheet"}/
+    %script{:src => "assets/js/jquery.min.js"}
+    %script{:src => "assets/js/bootstrap.min.js"}
+    %title= I18n.t(:title)
+  %body
+    %section#introduction
+      .container
+        .row.fill-viewport.align-items-center.justify-content-center
+          .col-12.col-md-6
+            .row
+              .col-md-auto
+                %h1.text-white.title= I18n.t(:codebreaker, year: Time.new.year)
+            %p.lead.text-white-70= I18n.t(:hello_message, name: @game.name.name)
+            %p.lead.text-white-70= I18n.t(:guess_code, code: CodebreakerGem::Entities::Guess::MAX_INPUT, min: CodebreakerGem::Entities::Guess::MIN_RANGE, max: CodebreakerGem::Entities::Guess::MAX_RANGE)
+            %hr.mb-4/
+            = render_errors(Lib::Modules::WebHelper::PAGES[:errors])
+            .row
+              .col.button
+                %button.btn.btn-primary{:disabled => "disabled", :type => "button"}
+                  = I18n.t(:game_page_level)
+                  %span.badge.badge-light
+                    #{@game.level.level.capitalize}
+              .col.text-center.button
+                %button.btn.btn-primary{:disabled => "disabled", :type => "button"}
+                  = I18n.t(:game_page_attempts)
+                  %span.badge.badge-light #{@game.user_attempts}/#{@game.level.attempts}
+              .col.button
+                %button.btn.btn-primary.float-right{:type => "button"}
+                  = I18n.t(:game_page_hints)
+                  %span.badge.badge-light #{@game.user_hints}/#{@game.level.hints}
+            %hr.mb-4/
+            %form{:action => Lib::Entities::Router::COMMANDS[:guess], :method => "post"}
+              .form-group
+                %input.form-control.guess_input{:autocomplete => "off", :name => "number", :placeholder => @guess_number || I18n.t(:make_guess), :required => ""}/
+              .form-group.guess_markers_list
+                #guess_marker
+                  - if @guess_result
+                    - @guess_result.each_char do |sign|
+                      - case sign
+                      - when CodebreakerGem::Entities::UserCode::STRONG_NUMBER
+                        %button.btn.btn-success.marks{:disabled => "disabled", :type => "button"}= CodebreakerGem::Entities::UserCode::STRONG_NUMBER
+                      - when CodebreakerGem::Entities::UserCode::SOFT_NUMBER
+                        %button.btn.btn-primary.marks{:disabled => "disabled", :type => "button"}= CodebreakerGem::Entities::UserCode::SOFT_NUMBER
+                      - else 
+                        %button.btn.btn-danger.marks{:disabled => "disabled", :type => "button"}= CodebreakerGem::Entities::UserCode::WRONG_NUMBER
+              %hr.mb-4/
+              %button.btn.btn-primary.btn-lg{:type => "submit"}
+                = I18n.t(:submit)
+              %a{class: "btn btn-warning btn-lg float-right #{'disabled' unless @game.user_hints.positive?}",:role => "button", :href => Lib::Entities::Router::COMMANDS[:hint]}
+                = I18n.t(:hint_message)
+                - if @hints&.any?
+                  - @hints.each do |hint|
+                    %span.badge.badge-light
+                      #{hint}

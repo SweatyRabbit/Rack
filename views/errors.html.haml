@@ -1,0 +1,5 @@
+- if @errors.any?
+  .row 
+    .alert.alert-danger{:role => "alert"}
+      - @errors.each do |error|
+        = error

@@ -48,7 +48,7 @@ module Lib
       end
 
       def win
-        return respond(:game) if game_exist? && !@game.win?
+        return respond(PAGES[:game]) if game_exist? && !@game.win?
 
         @game.save_current_statistic
         @request.session.clear
@@ -56,7 +56,7 @@ module Lib
       end
 
       def lose
-        return respond(:game) if game_exist? && !@game.lose?
+        return respond(PAGES[:game]) if game_exist? && !@game.lose?
 
         @request.session.clear
         respond(PAGES[:lose])

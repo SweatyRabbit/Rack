@@ -6,7 +6,7 @@ RSpec.describe Lib::Entities::Router do
   end
 
   let(:name) { Faker::Name.first_name }
-  let(:level) { 'Easy' }
+  let(:level) { CodebreakerGem::Entities::Difficulty::DIFFICULTIES[:easy][:level] }
   let(:game) { CodebreakerGem::Entities::Game.new(name, level) }
   let(:guess_number) { CodebreakerGem::Entities::Guess::MIN_RANGE.to_s * CodebreakerGem::Entities::Guess::MAX_INPUT }
 
